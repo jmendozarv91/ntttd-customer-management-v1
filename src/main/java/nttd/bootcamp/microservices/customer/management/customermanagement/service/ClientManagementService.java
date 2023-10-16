@@ -34,9 +34,7 @@ public class ClientManagementService {
 
     public Mono<ClientDto> updateClient(Mono<ClientDto> clientDtoMono, String id) {
         return repository.findById(id)
-                .doOnNext(client -> System.out.println(client))
                 .flatMap(p -> clientDtoMono.map(AppUtils::entityToEntity2))
-                .doOnNext(client -> System.out.println(client))
                 .doOnNext(e -> e.setId(String.valueOf(UUID.fromString(id))))
                 .flatMap(repository::save)
                 .map(AppUtils::entityToDto);
